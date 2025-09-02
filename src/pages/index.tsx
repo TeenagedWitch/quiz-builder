@@ -1,4 +1,4 @@
-import ListItem from "./components/ListItem";
+import ListItem from "../components/ListItem";
 import Link from "next/link";
 import { seedIfNeeded, list, Quiz } from "@/utility/quizStorage";
 import { useState, useEffect } from "react";
@@ -35,7 +35,7 @@ export default function Home() {
       <main>
         <div className="container">
           {quizzes.map((el) => (
-            <ListItem item={el} />
+            <ListItem key={el.id} item={el} />
           ))}
         </div>
       </main>

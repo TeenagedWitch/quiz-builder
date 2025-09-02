@@ -1,7 +1,9 @@
+"use client";
+
 import { Quiz } from "@/utility/quizStorage";
 import React from "react";
 
-const QuizItem = ({ title, blocks }: Quiz) => {
+const QuizItem = ({ title, blocks = [] }: Quiz) => {
   const renderHeading = () => {
     const res = blocks.find((block) => block.type === "heading");
     if (!res) return null;
@@ -48,6 +50,8 @@ const QuizItem = ({ title, blocks }: Quiz) => {
 
   const renderFooter = () => {
     const res = blocks.find((block) => block.type === "footer");
+    if (!res) return;
+
     return (
       <div className="d-flex">
         <h5>{res.text}</h5>

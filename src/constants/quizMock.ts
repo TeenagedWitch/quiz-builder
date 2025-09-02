@@ -1,4 +1,6 @@
-export const mockQuizzes = [
+import { Quiz } from "@/utility/quizStorage";
+
+export const mockQuizzes: Quiz[] = [
   {
     id: "1",
     title: "General Knowledge Quiz",
