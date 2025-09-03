@@ -1,10 +1,11 @@
-import { Quiz } from "@/utility/quizStorage";
+import { Quiz } from "@/types";
 
 export const mockQuizzes: Quiz[] = [
   {
     id: "1",
     title: "General Knowledge Quiz",
     updatedAt: "2025-09-01",
+    createdAt: "2025-09-01",
     published: true,
     blocks: [
       { type: "heading", text: "Welcome to the General Knowledge Quiz!" },
@@ -46,6 +47,7 @@ export const mockQuizzes: Quiz[] = [
       { type: "button", label: "Submit" },
       { type: "footer", text: "Math is fun!" },
     ],
+    createdAt: "2025-08-28",
   },
   {
     id: "3",
@@ -69,11 +71,13 @@ export const mockQuizzes: Quiz[] = [
       { type: "button", label: "Finish" },
       { type: "footer", text: "Thanks for playing!" },
     ],
+    createdAt: "2025-08-20",
   },
   {
     id: "4",
     title: "Free-Text Knowledge Quiz",
     updatedAt: "2025-09-02T18:00:00.000Z",
+    createdAt: "2025-09-02T18:00:00.000Z",
     published: true,
     blocks: [
       { type: "heading", text: "Answer the questions in your own words" },

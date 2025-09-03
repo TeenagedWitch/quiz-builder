@@ -1,4 +1,4 @@
-import { Quiz } from "@/utility/quizStorage";
+import { Quiz } from "@/types";
 
 export type ListItemProps = {
   item: Quiz;
@@ -11,6 +11,11 @@ const ListItem = ({ item }: ListItemProps) => {
         <div className="fw-bold">{item.title}</div>
         <small className="text-muted">
           Updated: {new Date(item.updatedAt).toLocaleString()}
+        </small>
+      </div>
+      <div>
+        <small className="text-muted p-3">
+          Created: {new Date(item.updatedAt).toISOString().slice(0, 10)}
         </small>
       </div>
       <div className="d-flex gap-2">

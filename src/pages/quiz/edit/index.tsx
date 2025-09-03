@@ -1,5 +1,5 @@
-const index = () => {
-  return <div>This is edit page</div>;
-};
+import QuizEdit from "@/components/QuizEdit";
 
-export default index;
+export default function CreateQuizPage() {
+  return <QuizEdit />;
+}

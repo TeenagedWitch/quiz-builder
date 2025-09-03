@@ -1,66 +1,55 @@
 import { mockQuizzes } from "@/constants/quizMock";
-
-export type QuestionBlock =
-  | {
-      type: "question";
-      question: string;
-      options: string[];
-      multiple?: false;
-      correct?: number;
-    }
-  | {
-      type: "question";
-      question: string;
-      options: string[];
-      multiple: true;
-      correct?: number[];
-    }
-  | {
-      type: "question";
-      question: string;
-      options?: undefined;
-      multiple?: false;
-      correct?: RegExp | string;
-    };
-
-export type HeadingBlock = {
-  type: "heading";
-  text: string;
-};
-
-export type FooterBlock = {
-  type: "footer";
-  text: string;
-};
-
-export type ButtonBlock = {
-  type: "button";
-  label: string;
-};
-
-export type Block = HeadingBlock | QuestionBlock | FooterBlock | ButtonBlock;
-
-export type Quiz = {
-  id: string;
-  title: string;
-  updatedAt: string;
-  published: boolean;
-  blocks: Block[];
-};
+import { Quiz } from "@/types";
+import { toast } from "@/utility/toast";
 
 const STORAGE_KEY = "quizbuilder.quizzes";
 
 function read(): Quiz[] {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
+    if (!raw) return [];
+    try {
+      return JSON.parse(raw);
+    } catch (e) {
+      toast(
+        "Saved quizzes are corrupted or unreadable. Showing empty list.",
+        "danger"
+      );
+      return [];
+    }
+  } catch (e) {
+    toast(
+      "Unable to access local storage. Changes may not persist.",
+      "warning"
+    );
     return [];
   }
 }
 
-function write(data: Quiz[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+function write(data: Quiz[]): boolean {
+  let payload = "[]";
+  try {
+    payload = JSON.stringify(data);
+  } catch (e) {
+    toast("Failed to save quizzes: invalid data format.", "danger");
+    return false;
+  }
+
+  try {
+    localStorage.setItem(STORAGE_KEY, payload);
+    return true;
+  } catch (e: any) {
+    const msg = typeof e?.message === "string" ? e.message : String(e);
+    if (msg.toLowerCase().includes("quota") || e?.name === "QuotaExceededError") {
+      toast(
+        "Storage is full. Cannot save more quizzes. Consider deleting some.",
+        "warning"
+      );
+    } else {
+      toast("Failed to write to local storage.", "danger");
+    }
+    return false;
+  }
 }
 
 export function seedIfNeeded() {
@@ -79,7 +68,7 @@ export function getQuizById(id: string): Quiz | undefined {
   return res;
 }
 
-export function upsert(quiz: Quiz) {
+export function upsert(quiz: Quiz): boolean {
   const all = read();
   const idx = all.findIndex((q) => q.id === quiz.id);
 
@@ -89,8 +78,8 @@ export function upsert(quiz: Quiz) {
   if (idx >= 0) {
     all[idx] = updatedQuiz;
   } else {
-    all.push({ ...updatedQuiz, updatedAt: now });
+    all.push({ ...updatedQuiz, updatedAt: now, createdAt: now });
   }
 
-  write(all);
+  return write(all);
 }
