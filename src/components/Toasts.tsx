@@ -1,16 +1,10 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import type { ToastEventDetail, ToastVariant } from "@/utility/toast";
+import { useEffect, useState } from "react";
+import type { ToastEventDetail } from "@/utility/toast";
+import { variantToClass } from "@/constants/toastVariants";
 
 type ToastItem = Required<ToastEventDetail>;
-
-const variantToClass: Record<ToastVariant, string> = {
-  success: "alert-success",
-  info: "alert-info",
-  warning: "alert-warning",
-  danger: "alert-danger",
-};
 
 export default function Toasts() {
   const [items, setItems] = useState<ToastItem[]>([]);

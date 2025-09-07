@@ -1,4 +1,4 @@
-import QuizEdit from "@/components/QuizEdit";
+import QuizEdit from "@/components/quiz/QuizEdit";
 import { Quiz } from "@/types";
 import { getQuizById } from "@/utility/quizStorage";
 import { useRouter } from "next/router";

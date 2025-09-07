@@ -11,6 +11,7 @@ function read(): Quiz[] {
     try {
       return JSON.parse(raw);
     } catch (e) {
+      console.log(e);
       toast(
         "Saved quizzes are corrupted or unreadable. Showing empty list.",
         "danger"
@@ -18,6 +19,7 @@ function read(): Quiz[] {
       return [];
     }
   } catch (e) {
+    console.log(e);
     toast(
       "Unable to access local storage. Changes may not persist.",
       "warning"
@@ -31,6 +33,7 @@ function write(data: Quiz[]): boolean {
   try {
     payload = JSON.stringify(data);
   } catch (e) {
+    console.log(e);
     toast("Failed to save quizzes: invalid data format.", "danger");
     return false;
   }
@@ -40,7 +43,10 @@ function write(data: Quiz[]): boolean {
     return true;
   } catch (e: any) {
     const msg = typeof e?.message === "string" ? e.message : String(e);
-    if (msg.toLowerCase().includes("quota") || e?.name === "QuotaExceededError") {
+    if (
+      msg.toLowerCase().includes("quota") ||
+      e?.name === "QuotaExceededError"
+    ) {
       toast(
         "Storage is full. Cannot save more quizzes. Consider deleting some.",
         "warning"

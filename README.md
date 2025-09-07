@@ -1,40 +1,98 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+Quiz Builder
 
-## Getting Started
+A lightweight quiz editor and viewer built with Next.js and Bootstrap. Create quizzes from reusable blocks (heading, question, button, footer), edit properties, save to local storage, and publish to share a read‑only view.
 
-First, run the development server:
+Getting Started
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- Prerequisites: Node.js 18+ and npm
+- Install deps: `npm install`
+- Run dev server: `npm run dev`
+- Open app: http://localhost:3000
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Available Scripts
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+- `npm run dev`: Start Next.js dev server (Turbopack)
+- `npm run build`: Create production build
+- `npm start`: Run production server
+- `npm run lint`: Lint the project
 
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Key Concepts
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
+- Blocks: Quizzes are composed of blocks: `heading`, `question`, `button`, `footer`.
+- Draft vs Published: Drafts show in the editor; only published quizzes render on the public view page.
+- Persistence: Data is stored in `localStorage` under the key `quizbuilder.quizzes` and seeded from `src/constants/quizMock.json` on first run.
 
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Using the App
 
-## Learn More
+1. Browse quizzes
 
-To learn more about Next.js, take a look at the following resources:
+- Home: `src/pages/index.tsx` lists quizzes from local storage with Edit and View actions.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
+2. Create a quiz
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- Use the navbar button “Create Quiz” or visit `/quiz/edit` to open a new, unsaved quiz.
 
-## Deploy on Vercel
+3. Edit a quiz
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Editor: `src/components/quiz/QuizEdit.tsx` with three panels:
+  - Header: give a name to the quiz.
+  - Palette (left): drag blocks into the canvas or click to add.
+  - Canvas (center): reorder via drag handle or Up/Down; select, insert above, or delete blocks.
+  - Properties (right): edit fields for the selected block.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+4. Save and publish
+
+- Save: persists to local storage and updates timestamps.
+- Publish/Unpublish: toggles visibility of the quiz on the public page.
+
+5. View a quiz
+
+- Click “View” on the list or visit `/quiz/{id}`. Only published quizzes render; drafts show “Not published yet.”
+
+Block Types
+
+- Heading: single text field.
+- Question:
+  - Multiple choice: add options and choose single or multiple selection.
+  - Free text: switch by clicking “Free text” (clears options) to accept open‑ended input.
+- Button: label text; renders a submit‑style button in the viewer.
+- Footer: single text field.
+
+Data & Storage
+
+- Storage key: `quizbuilder.quizzes` in `localStorage`.
+- Seed data: `src/constants/quizMock.json` loads if storage is empty (first visit).
+- Reset data: clear the storage key in your browser devtools to restore seed data on next load.
+
+Project Structure
+
+- Pages: `src/pages` (routes, including `/quiz/edit` and `/quiz/[id]`).
+- Editor: `src/components/quiz/editor` (Palette, Canvas, PropertiesPanel).
+- Viewer: `src/components/quiz/Quiz.tsx`.
+- Types: `src/types/index.ts`.
+- Utilities: `src/utility` (local storage, toasts, ID generation).
+- Constants: `src/constants` (block palette, seed data, toast variants).
+
+Notes & Limitations
+
+- The viewer renders questions and collects input, but answer scoring/validation is not implemented.
+- Free‑text examples in the mock use regex “correct” hints, which are not evaluated in the current viewer.
+- All data is local to your browser. There is no backend.
+
+Tech Stack
+
+- Next.js 15, React 19
+- Bootstrap 5 for UI
+- `@hello-pangea/dnd` for drag‑and‑drop
+
+Screenshots
+
+![Home and header](src/assets/images/quiz-header.png)
+
+![Block palette](src/assets/images/quiz-blocks.png)
+
+![Canvas with blocks](src/assets/images/quiz-canvas.png)
+
+![Properties panel](src/assets/images/quiz-properties.png)
+
+![Save and publish](src/assets/images/quiz-save.png)
