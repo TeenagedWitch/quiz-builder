@@ -81,9 +81,9 @@ Notes & Limitations
 
 Tech Stack
 
-- Next.js 15, React 19
-- Bootstrap 5 for UI
-- `@hello-pangea/dnd` for drag‑and‑drop
+- Next.js 15, React 19 - selected for simple and optimized routing.
+- Bootstrap 5 – selected as a mature, responsive UI framework that speeds up development with prebuilt components, consistent styling, and mobile-first design.
+- `@hello-pangea/dnd` - used for smooth, accessible drag-and-drop interactions, offering a flexible and lightweight API for reordering lists or building custom workflows.
 
 Screenshots
 
@@ -96,3 +96,5 @@ Screenshots
 ![Properties panel](src/assets/images/quiz-properties.png)
 
 ![Save and publish](src/assets/images/quiz-save.png)
+
+Live demo: https://quiz-builder-pied.vercel.app/
