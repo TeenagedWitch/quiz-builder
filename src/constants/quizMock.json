@@ -1,0 +1,106 @@
+[
+  {
+    "id": "1",
+    "title": "General Knowledge Quiz",
+    "updatedAt": "2025-09-01",
+    "createdAt": "2025-09-01",
+    "published": true,
+    "blocks": [
+      { "type": "heading", "text": "Welcome to the General Knowledge Quiz!" },
+      {
+        "type": "question",
+        "question": "What is the capital of France?",
+        "options": ["Paris", "Rome", "Berlin", "Madrid"],
+        "multiple": false
+      },
+      {
+        "type": "question",
+        "question": "Which of these are programming languages?",
+        "options": ["Python", "Banana", "JavaScript", "Table"],
+        "multiple": true
+      },
+      { "type": "button", "label": "Confirm" },
+      { "type": "footer", "text": "Good luck!" }
+    ]
+  },
+  {
+    "id": "2",
+    "title": "Math Quiz",
+    "updatedAt": "2025-08-28",
+    "published": false,
+    "blocks": [
+      { "type": "heading", "text": "Test your math skills" },
+      {
+        "type": "question",
+        "question": "What is 5 + 7?",
+        "options": ["10", "11", "12", "13"],
+        "multiple": false
+      },
+      {
+        "type": "question",
+        "question": "Select prime numbers:",
+        "options": ["2", "3", "4", "6"],
+        "multiple": true
+      },
+      { "type": "button", "label": "Submit" },
+      { "type": "footer", "text": "Math is fun!" }
+    ],
+    "createdAt": "2025-08-28"
+  },
+  {
+    "id": "3",
+    "title": "Sports Quiz",
+    "updatedAt": "2025-08-20",
+    "published": true,
+    "blocks": [
+      { "type": "heading", "text": "Sports Fan Quiz" },
+      {
+        "type": "question",
+        "question": "Which country won the FIFA World Cup in 2018?",
+        "options": ["Brazil", "France", "Germany", "Argentina"],
+        "multiple": false
+      },
+      {
+        "type": "question",
+        "question": "Which of these are Olympic sports?",
+        "options": ["Swimming", "Chess", "Running", "Basketball"],
+        "multiple": true
+      },
+      { "type": "button", "label": "Finish" },
+      { "type": "footer", "text": "Thanks for playing!" }
+    ],
+    "createdAt": "2025-08-20"
+  },
+  {
+    "id": "4",
+    "title": "Free-Text Knowledge Quiz",
+    "updatedAt": "2025-09-02T18:00:00.000Z",
+    "createdAt": "2025-09-02T18:00:00.000Z",
+    "published": true,
+    "blocks": [
+      { "type": "heading", "text": "Answer the questions in your own words" },
+      {
+        "type": "question",
+        "question": "Define an algorithm in one sentence.",
+        "correct": "/sequence.*steps/i"
+      },
+      {
+        "type": "question",
+        "question": "Name the JavaScript runtime engine in Google Chrome.",
+        "correct": "/\\bv8\\b/i"
+      },
+      {
+        "type": "question",
+        "question": "Which company created the programming language Python?",
+        "correct": "/guido\\s+van\\s+rossum/i"
+      },
+      {
+        "type": "question",
+        "question": "What is 2 to the power of 5?",
+        "correct": "/^32$/"
+      },
+      { "type": "button", "label": "Submit" },
+      { "type": "footer", "text": "Thanks for your answers!" }
+    ]
+  }
+]
