@@ -28,6 +28,9 @@ export default function Palette({ palette, onAdd }: Props) {
                     {...dragProvided.draggableProps}
                     {...dragProvided.dragHandleProps}
                     className="btn btn-light text-start"
+                    onClick={() => onAdd(t)}
+                    role="button"
+                    tabIndex={0}
                   >
                     {t[0].toUpperCase() + t.slice(1)}
                   </div>
@@ -38,14 +41,6 @@ export default function Palette({ palette, onAdd }: Props) {
           </div>
         )}
       </Droppable>
-      <div className="text-muted small mb-1">Or click to add</div>
-      <div className="d-grid gap-2">
-        {palette.map((t) => (
-          <button key={t} className="btn btn-light" onClick={() => onAdd(t)}>
-            {t[0].toUpperCase() + t.slice(1)}
-          </button>
-        ))}
-      </div>
     </div>
   );
 }

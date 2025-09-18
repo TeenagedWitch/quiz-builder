@@ -89,3 +89,10 @@ export function upsert(quiz: Quiz): boolean {
 
   return write(all);
 }
+
+export function removeQuiz(id: string) {
+  const all = read();
+  const modified = all.filter((q) => q.id !== id);
+
+  return write(modified);
+}

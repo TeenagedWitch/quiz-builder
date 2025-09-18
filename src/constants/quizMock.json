@@ -2,8 +2,8 @@
   {
     "id": "1",
     "title": "General Knowledge Quiz",
-    "updatedAt": "2025-09-01",
-    "createdAt": "2025-09-01",
+    "updatedAt": "2025-09-17",
+    "createdAt": "2025-09-17",
     "published": true,
     "blocks": [
       { "type": "heading", "text": "Welcome to the General Knowledge Quiz!" },
@@ -26,7 +26,7 @@
   {
     "id": "2",
     "title": "Math Quiz",
-    "updatedAt": "2025-08-28",
+    "updatedAt": "2025-09-17",
     "published": false,
     "blocks": [
       { "type": "heading", "text": "Test your math skills" },
@@ -45,12 +45,12 @@
       { "type": "button", "label": "Submit" },
       { "type": "footer", "text": "Math is fun!" }
     ],
-    "createdAt": "2025-08-28"
+    "createdAt": "2025-09-17"
   },
   {
     "id": "3",
     "title": "Sports Quiz",
-    "updatedAt": "2025-08-20",
+    "updatedAt": "2025-09-17",
     "published": true,
     "blocks": [
       { "type": "heading", "text": "Sports Fan Quiz" },
@@ -69,13 +69,13 @@
       { "type": "button", "label": "Finish" },
       { "type": "footer", "text": "Thanks for playing!" }
     ],
-    "createdAt": "2025-08-20"
+    "createdAt": "2025-09-17"
   },
   {
     "id": "4",
     "title": "Free-Text Knowledge Quiz",
-    "updatedAt": "2025-09-02T18:00:00.000Z",
-    "createdAt": "2025-09-02T18:00:00.000Z",
+    "updatedAt": "2025-09-17",
+    "createdAt": "2025-09-17",
     "published": true,
     "blocks": [
       { "type": "heading", "text": "Answer the questions in your own words" },

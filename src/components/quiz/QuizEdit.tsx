@@ -11,6 +11,7 @@ import { blockPalette } from "@/constants/blocks";
 import Canvas from "./editor/Canvas";
 import Palette from "./editor/Palette";
 import PropertiesPanel from "./editor/PropertiesPanel";
+import Badge from "../Badge";
 
 type EditorProps = {
   initial?: Quiz;
@@ -150,13 +151,7 @@ export default function QuizEdit({ initial }: EditorProps) {
           placeholder="Quiz title"
         />
         <div className="ms-auto d-flex align-items-center gap-2">
-          <span
-            className={`badge ${
-              quiz.published ? "bg-success" : "bg-secondary"
-            }`}
-          >
-            {quiz.published ? "Published" : "Draft"}
-          </span>
+          <Badge isPublished={quiz.published} />
           <button className="btn btn-outline-primary" onClick={save}>
             Save
           </button>
