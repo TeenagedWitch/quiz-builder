@@ -1,5 +1,4 @@
-"use client";
-
+import { useEffect, useState } from "react";
 import { Droppable, Draggable } from "@hello-pangea/dnd";
 import type {
   Block,
@@ -14,7 +13,6 @@ type Props = {
   selectedIndex: number | null;
   setSelectedIndex: (i: number) => void;
   move: (index: number, dir: -1 | 1) => void;
-  insertBefore: (index: number, type: Block["type"]) => void;
   remove: (index: number) => void;
 };
 
@@ -23,9 +21,29 @@ export default function Canvas({
   selectedIndex,
   setSelectedIndex,
   move,
-  insertBefore,
   remove,
 }: Props) {
+  const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
+
+  function closeConfirm() {
+    setConfirmIndex(null);
+  }
+  function confirmDelete() {
+    if (confirmIndex !== null) {
+      remove(confirmIndex);
+      closeConfirm();
+    }
+  }
+
+  useEffect(() => {
+    if (confirmIndex === null) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeConfirm();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [confirmIndex]);
+
   return (
     <div>
       <div className="fw-semibold mb-2">Canvas</div>
@@ -41,6 +59,7 @@ export default function Canvas({
                 Drag blocks here to build your quiz.
               </div>
             )}
+
             {blocks.map((blk, idx) => (
               <Draggable key={idx} draggableId={`blk-${idx}`} index={idx}>
                 {(dragProvided, snapshot) => (
@@ -74,38 +93,10 @@ export default function Canvas({
                       >
                         Down
                       </button>
-                      <button
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={() => insertBefore(idx, "heading")}
-                        title="Insert heading above"
-                      >
-                        +Heading
-                      </button>
-                      <button
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={() => insertBefore(idx, "question")}
-                        title="Insert question above"
-                      >
-                        +Question
-                      </button>
-                      <button
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={() => insertBefore(idx, "button")}
-                        title="Insert button above"
-                      >
-                        +Button
-                      </button>
-                      <button
-                        className="btn btn-sm btn-outline-secondary"
-                        onClick={() => insertBefore(idx, "footer")}
-                        title="Insert footer above"
-                      >
-                        +Footer
-                      </button>
                       <div className="ms-auto d-flex gap-2">
                         <button
                           className="btn btn-sm btn-outline-danger"
-                          onClick={() => remove(idx)}
+                          onClick={() => setConfirmIndex(idx)}
                         >
                           Delete
                         </button>
@@ -117,7 +108,7 @@ export default function Canvas({
                           }`}
                           onClick={() => setSelectedIndex(idx)}
                         >
-                          {selectedIndex === idx ? "Selected" : "Select"}
+                          {selectedIndex === idx ? "Selected" : "Edit"}
                         </button>
                       </div>
                     </div>
@@ -143,14 +134,13 @@ export default function Canvas({
                           <div className="fw-semibold">
                             Q: {(blk as QuestionBlock).question}
                           </div>
-                          {Array.isArray((blk as QuestionBlock).options) && (
+                          {Array.isArray((blk as QuestionBlock).options) ? (
                             <ul className="mb-0">
                               {(blk as QuestionBlock).options!.map((o, oi) => (
                                 <li key={oi}>{o}</li>
                               ))}
                             </ul>
-                          )}
-                          {!Array.isArray((blk as QuestionBlock).options) && (
+                          ) : (
                             <div className="text-muted">Free-text answer</div>
                           )}
                         </div>
@@ -160,10 +150,67 @@ export default function Canvas({
                 )}
               </Draggable>
             ))}
+
             {provided.placeholder}
           </div>
         )}
       </Droppable>
+
+      {confirmIndex !== null && (
+        <>
+          <div className="modal-backdrop fade show" />
+          <div
+            className="modal fade show d-block"
+            tabIndex={-1}
+            role="dialog"
+            style={{ zIndex: 1050 }}
+            onMouseDown={(e) => {
+              if (e.target === e.currentTarget) closeConfirm();
+            }}
+          >
+            <div className="modal-dialog modal-dialog-centered">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title">Delete block</h5>
+                  <button
+                    type="button"
+                    className="btn-close"
+                    onClick={closeConfirm}
+                  />
+                </div>
+                <div className="modal-body">
+                  <p className="mb-0">
+                    Are you sure you want to delete{" "}
+                    <strong>
+                      block #{confirmIndex + 1}{" "}
+                      {blocks[confirmIndex]?.type
+                        ? `(${blocks[confirmIndex].type})`
+                        : ""}
+                    </strong>
+                    ?
+                  </p>
+                </div>
+                <div className="modal-footer">
+                  <button
+                    type="button"
+                    className="btn btn-secondary"
+                    onClick={closeConfirm}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-danger"
+                    onClick={confirmDelete}
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }

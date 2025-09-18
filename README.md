@@ -85,16 +85,6 @@ Tech Stack
 - Bootstrap 5 – selected as a mature, responsive UI framework that speeds up development with prebuilt components, consistent styling, and mobile-first design.
 - `@hello-pangea/dnd` - used for smooth, accessible drag-and-drop interactions, offering a flexible and lightweight API for reordering lists or building custom workflows.
 
-Screenshots
-
-![Home and header](src/assets/images/quiz-header.png)
-
-![Block palette](src/assets/images/quiz-blocks.png)
-
-![Canvas with blocks](src/assets/images/quiz-canvas.png)
-
-![Properties panel](src/assets/images/quiz-properties.png)
-
-![Save and publish](src/assets/images/quiz-save.png)
+[▶️ Watch demo](src/assets/images/demo.mov)
 
 Live demo: https://quiz-builder-pied.vercel.app/

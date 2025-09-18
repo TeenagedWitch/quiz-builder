@@ -1,5 +1,3 @@
-"use client";
-
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
@@ -11,6 +9,7 @@ import { blockPalette } from "@/constants/blocks";
 import Canvas from "./editor/Canvas";
 import Palette from "./editor/Palette";
 import PropertiesPanel from "./editor/PropertiesPanel";
+import Badge from "../Badge";
 
 type EditorProps = {
   initial?: Quiz;
@@ -29,16 +28,6 @@ export default function QuizEdit({ initial }: EditorProps) {
     const block = makeBlock(type);
     setQuiz((q) => ({ ...q, blocks: [...q.blocks, block] }));
     setSelectedIndex(quiz.blocks.length);
-  }
-
-  function insertBefore(index: number, type: Block["type"]) {
-    const block = makeBlock(type);
-    setQuiz((q) => {
-      const next = [...q.blocks];
-      next.splice(index, 0, block);
-      return { ...q, blocks: next };
-    });
-    setSelectedIndex(index);
   }
 
   function move(index: number, dir: -1 | 1) {
@@ -150,13 +139,7 @@ export default function QuizEdit({ initial }: EditorProps) {
           placeholder="Quiz title"
         />
         <div className="ms-auto d-flex align-items-center gap-2">
-          <span
-            className={`badge ${
-              quiz.published ? "bg-success" : "bg-secondary"
-            }`}
-          >
-            {quiz.published ? "Published" : "Draft"}
-          </span>
+          <Badge isPublished={quiz.published} />
           <button className="btn btn-outline-primary" onClick={save}>
             Save
           </button>
@@ -177,7 +160,6 @@ export default function QuizEdit({ initial }: EditorProps) {
               selectedIndex={selectedIndex}
               setSelectedIndex={(i) => setSelectedIndex(i)}
               move={move}
-              insertBefore={insertBefore}
               remove={remove}
             />
           </div>
