@@ -1,4 +1,4 @@
-import { newId } from "@/utility/generateId";
+import { newId } from "./generateId";
 import type {
   Quiz,
   Block,
@@ -6,7 +6,7 @@ import type {
   FooterBlock,
   ButtonBlock,
   QuestionBlock,
-} from "@/types";
+} from "../types/types";
 
 export const defaultQuiz = (): Quiz => ({
   id: newId(),

@@ -1,7 +1,10 @@
-import { Quiz } from "@/types";
-import { useRouter } from "next/router";
+"use client";
+
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import Badge from "./Badge";
+import { Quiz } from "@/types/types";
 
 export type ListItemProps = {
   item: Quiz;
@@ -55,20 +58,18 @@ const ListItem = ({ item, onDelete }: ListItemProps) => {
         </div>
 
         <div className="d-flex gap-2">
-          <a
+          <Link
             href={`/quiz/edit/${item.id}`}
             className="btn btn-sm btn-outline-primary d-flex align-items-center"
-            style={{ cursor: "pointer" }}
           >
             Edit
-          </a>
-          <a
+          </Link>
+          <Link
             href={`/quiz/${item.id}`}
             className="btn btn-sm btn-primary d-flex align-items-center"
-            style={{ cursor: "pointer" }}
           >
             View
-          </a>
+          </Link>
           <button
             className="btn btn-danger"
             onClick={() => setShowConfirm(true)}

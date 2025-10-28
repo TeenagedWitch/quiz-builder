@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Block,
   ButtonBlock,
@@ -5,8 +6,7 @@ import {
   HeadingBlock,
   QuestionBlock,
   Quiz,
-} from "@/types";
-import React from "react";
+} from "@/types/types";
 
 const QuizItem = ({ title, blocks = [] }: Quiz) => {
   const renderBlock = (block: Block, idx: number) => {

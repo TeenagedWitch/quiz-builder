@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import type { ToastEventDetail } from "@/utility/toast";
 import { variantToClass } from "@/constants/toastVariants";

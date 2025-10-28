@@ -1,19 +1,20 @@
-import QuizItem from "@/components/quiz/Quiz";
-import { Quiz } from "@/types";
-import { getQuizById } from "@/utility/quizStorage";
-import { useRouter } from "next/router";
+"use client";
+
 import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import QuizItem from "@/components/quiz/Quiz";
+import type { Quiz } from "../../../types/types";
+import { getQuizById } from "../../../utility/quizStorage";
 
 export default function QuizPage() {
+  const params = useParams<{ id: string }>();
+  const id = params?.id;
   const [quiz, setQuiz] = useState<Quiz>();
-  const router = useRouter();
-  const { id } = router.query;
 
   useEffect(() => {
-    const res = getQuizById(id as string);
-    if (res) {
-      setQuiz(res);
-    }
+    if (!id) return;
+    const found = getQuizById(id);
+    if (found) setQuiz(found);
   }, [id]);
 
   return (

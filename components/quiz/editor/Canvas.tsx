@@ -1,12 +1,14 @@
+"use client";
+
 import { useEffect, useState } from "react";
 import { Droppable, Draggable } from "@hello-pangea/dnd";
-import type {
+import {
   Block,
-  HeadingBlock,
-  FooterBlock,
   ButtonBlock,
+  FooterBlock,
+  HeadingBlock,
   QuestionBlock,
-} from "@/types";
+} from "@/types/types";
 
 type Props = {
   blocks: Block[];
@@ -45,14 +47,15 @@ export default function Canvas({
   }, [confirmIndex]);
 
   return (
-    <div>
+    <div className="d-flex flex-column flex-grow-1 h-100">
       <div className="fw-semibold mb-2">Canvas</div>
       <Droppable droppableId="blocks">
         {(provided) => (
           <div
             ref={provided.innerRef}
             {...provided.droppableProps}
-            className="d-flex flex-column gap-3"
+            className="d-flex flex-column gap-3 flex-grow-1 overflow-auto"
+            style={{ minHeight: 0 }}
           >
             {blocks.length === 0 && (
               <div className="text-muted border rounded p-3">
@@ -66,19 +69,12 @@ export default function Canvas({
                   <div
                     ref={dragProvided.innerRef}
                     {...dragProvided.draggableProps}
+                    {...dragProvided.dragHandleProps}
                     className={`border rounded p-2 ${
                       selectedIndex === idx ? "border-primary" : ""
                     } ${snapshot.isDragging ? "bg-light" : ""}`}
                   >
                     <div className="d-flex align-items-center gap-2 mb-2">
-                      <span
-                        {...dragProvided.dragHandleProps}
-                        className="btn btn-sm btn-outline-secondary"
-                        title="Drag to reorder"
-                        style={{ cursor: "grab" }}
-                      >
-                        ::
-                      </span>
                       <button
                         className="btn btn-sm btn-outline-secondary"
                         disabled={idx === 0}

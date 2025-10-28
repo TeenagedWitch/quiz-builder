@@ -1,5 +1,7 @@
+"use client";
+
 import { Droppable, Draggable } from "@hello-pangea/dnd";
-import type { Block } from "@/types";
+import { Block } from "@/types/types";
 
 type Props = {
   palette: Block["type"][];

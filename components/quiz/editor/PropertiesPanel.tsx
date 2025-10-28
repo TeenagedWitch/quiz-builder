@@ -1,10 +1,10 @@
-import type {
+import {
   Block,
   HeadingBlock,
   FooterBlock,
   ButtonBlock,
   QuestionBlock,
-} from "@/types";
+} from "@/types/types";
 
 type Props = {
   updateBlock: (partial: Partial<Block>) => void;

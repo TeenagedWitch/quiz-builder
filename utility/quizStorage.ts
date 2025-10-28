@@ -1,6 +1,6 @@
-import mockQuizzes from "@/constants/quizMock.json";
-import { Quiz } from "@/types";
-import { toast } from "@/utility/toast";
+import mockQuizzes from "../constants/quizMock.json";
+import { Quiz } from "../types/types";
+import { toast } from "./toast";
 
 const STORAGE_KEY = "quizbuilder.quizzes";
 

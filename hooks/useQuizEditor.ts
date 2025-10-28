@@ -1,29 +1,24 @@
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
-import { DragDropContext, type DropResult } from "@hello-pangea/dnd";
-import type { Quiz, Block } from "@/types";
-import { upsert } from "@/utility/quizStorage";
-import { toast } from "@/utility/toast";
-import { defaultQuiz, makeBlock } from "@/utility/quizUtils";
 import { blockPalette } from "@/constants/blocks";
-import Canvas from "./editor/Canvas";
-import Palette from "./editor/Palette";
-import PropertiesPanel from "./editor/PropertiesPanel";
-import Badge from "../Badge";
+import { Block, Quiz } from "@/types/types";
+import { upsert } from "@/utility/quizStorage";
+import { makeBlock } from "@/utility/quizUtils";
+import { toast } from "@/utility/toast";
+import { type DropResult } from "@hello-pangea/dnd";
+import { Dispatch, SetStateAction } from "react";
 
-type EditorProps = {
-  initial?: Quiz;
+export type useQuizEditorProps = {
+  setSelectedIndex: Dispatch<SetStateAction<number | null>>;
+  setQuiz: Dispatch<SetStateAction<Quiz>>;
+  quiz: Quiz;
+  selectedIndex: number | null;
 };
 
-export default function QuizEdit({ initial }: EditorProps) {
-  const [quiz, setQuiz] = useState<Quiz>(() => initial ?? defaultQuiz());
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
-
-  const selectedBlock = useMemo(
-    () => (selectedIndex != null ? quiz.blocks[selectedIndex] : undefined),
-    [quiz.blocks, selectedIndex]
-  );
-
+export const useQuizEditor = ({
+  setQuiz,
+  setSelectedIndex,
+  quiz,
+  selectedIndex,
+}: useQuizEditorProps) => {
   function addBlock(type: Block["type"]) {
     const block = makeBlock(type);
     setQuiz((q) => ({ ...q, blocks: [...q.blocks, block] }));
@@ -121,56 +116,13 @@ export default function QuizEdit({ initial }: EditorProps) {
     else toast("Failed to update publish status.", "danger");
   }
 
-  useEffect(() => {
-    if (initial) setQuiz(initial);
-  }, [initial]);
-
-  return (
-    <div className="container-fluid">
-      <div className="d-flex align-items-center gap-3 py-3 border-bottom px-3">
-        <Link style={{ textDecoration: "none" }} href="/">
-          Back
-        </Link>
-        <input
-          className="form-control form-control-lg"
-          style={{ maxWidth: 480 }}
-          value={quiz.title}
-          onChange={(e) => setQuiz({ ...quiz, title: e.target.value })}
-          placeholder="Quiz title"
-        />
-        <div className="ms-auto d-flex align-items-center gap-2">
-          <Badge isPublished={quiz.published} />
-          <button className="btn btn-outline-primary" onClick={save}>
-            Save
-          </button>
-          <button className="btn btn-primary" onClick={togglePublish}>
-            {quiz.published ? "Unpublish" : "Publish"}
-          </button>
-        </div>
-      </div>
-
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="row g-0" style={{ minHeight: "91vh" }}>
-          <div className="col-12 col-md-3 col-lg-2 border-end p-3">
-            <Palette palette={blockPalette} onAdd={addBlock} />
-          </div>
-          <div className="col-12 col-md-6 col-lg-8 p-3">
-            <Canvas
-              blocks={quiz.blocks}
-              selectedIndex={selectedIndex}
-              setSelectedIndex={(i) => setSelectedIndex(i)}
-              move={move}
-              remove={remove}
-            />
-          </div>
-          <div className="col-12 col-md-3 col-lg-2 border-start p-3">
-            <PropertiesPanel
-              selectedBlock={selectedBlock}
-              updateBlock={updateBlock}
-            />
-          </div>
-        </div>
-      </DragDropContext>
-    </div>
-  );
-}
+  return {
+    togglePublish,
+    save,
+    updateBlock,
+    onDragEnd,
+    move,
+    addBlock,
+    remove,
+  };
+};
