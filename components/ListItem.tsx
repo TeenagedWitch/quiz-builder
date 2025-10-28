@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Badge from "./Badge";
+import Modal from "./Modal";
 import { Quiz } from "@/types/types";
 
 export type ListItemProps = {
@@ -22,15 +23,6 @@ const ListItem = ({ item, onDelete }: ListItemProps) => {
   function closeConfirm() {
     setShowConfirm(false);
   }
-
-  useEffect(() => {
-    if (showConfirm === false) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeConfirm();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [showConfirm]);
 
   return (
     <>
@@ -79,62 +71,36 @@ const ListItem = ({ item, onDelete }: ListItemProps) => {
         </div>
       </div>
 
-      {showConfirm && (
-        <>
-          <div
-            className="modal-backdrop fade show"
-            onClick={() => setShowConfirm(false)}
-          />
-
-          <div
-            className="modal fade show d-block"
-            tabIndex={-1}
-            role="dialog"
-            style={{ zIndex: 1050 }}
-            onMouseDown={(e) => {
-              if (e.target === e.currentTarget) closeConfirm();
-            }}
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Confirm Deletion</h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    onClick={() => setShowConfirm(false)}
-                  />
-                </div>
-                <div className="modal-body">
-                  <p>
-                    Are you sure you want to delete{" "}
-                    <strong>{item.title}</strong>?
-                  </p>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={() => setShowConfirm(false)}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={() => {
-                      onDelete(item.id);
-                      setShowConfirm(false);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      <Modal
+        open={showConfirm}
+        onClose={closeConfirm}
+        title="Confirm Deletion"
+        footer={
+          <>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={closeConfirm}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={() => {
+                onDelete(item.id);
+                setShowConfirm(false);
+              }}
+            >
+              Delete
+            </button>
+          </>
+        }
+      >
+        <p>
+          Are you sure you want to delete <strong>{item.title}</strong>?
+        </p>
+      </Modal>
     </>
   );
 };

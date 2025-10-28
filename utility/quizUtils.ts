@@ -1,4 +1,4 @@
-import { newId } from "./generateId";
+import { BlockType } from "@/constants/blockTypes";
 import type {
   Quiz,
   Block,
@@ -6,7 +6,8 @@ import type {
   FooterBlock,
   ButtonBlock,
   QuestionBlock,
-} from "../types/types";
+} from "@/types/types";
+import { newId } from "./generateId";
 
 export const defaultQuiz = (): Quiz => ({
   id: newId(),
@@ -19,16 +20,16 @@ export const defaultQuiz = (): Quiz => ({
 
 export function makeBlock(type: Block["type"]): Block {
   switch (type) {
-    case "heading":
-      return { type: "heading", text: "Heading" } as HeadingBlock;
-    case "footer":
-      return { type: "footer", text: "Footer" } as FooterBlock;
-    case "button":
-      return { type: "button", label: "Submit" } as ButtonBlock;
-    case "question":
+    case BlockType.Heading:
+      return { type: BlockType.Heading, text: "Heading" } as HeadingBlock;
+    case BlockType.Footer:
+      return { type: BlockType.Footer, text: "Footer" } as FooterBlock;
+    case BlockType.Button:
+      return { type: BlockType.Button, label: "Submit" } as ButtonBlock;
+    case BlockType.Question:
     default:
       return {
-        type: "question",
+        type: BlockType.Question,
         question: "Your question?",
         options: ["Option 1", "Option 2"],
         multiple: false,

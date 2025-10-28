@@ -1,8 +1,8 @@
-import type { Block } from "../../types";
+import { BlockType } from "./blockTypes";
 
-export const blockPalette: Block["type"][] = [
-  "heading",
-  "question",
-  "button",
-  "footer",
+export const blockPalette: BlockType[] = [
+  BlockType.Heading,
+  BlockType.Question,
+  BlockType.Button,
+  BlockType.Footer,
 ];

@@ -1,7 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Droppable, Draggable } from "@hello-pangea/dnd";
+import Modal from "@/components/Modal";
+import { BlockType } from "@/constants/blockTypes";
 import {
   Block,
   ButtonBlock,
@@ -26,6 +28,12 @@ export default function Canvas({
   remove,
 }: Props) {
   const [confirmIndex, setConfirmIndex] = useState<number | null>(null);
+  const targetLabel =
+    confirmIndex != null
+      ? `block #${confirmIndex + 1}${
+          blocks[confirmIndex]?.type ? ` (${blocks[confirmIndex]?.type})` : ""
+        }`
+      : "";
 
   function closeConfirm() {
     setConfirmIndex(null);
@@ -36,15 +44,6 @@ export default function Canvas({
       closeConfirm();
     }
   }
-
-  useEffect(() => {
-    if (confirmIndex === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeConfirm();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [confirmIndex]);
 
   return (
     <div className="d-flex flex-column flex-grow-1 h-100">
@@ -110,22 +109,22 @@ export default function Canvas({
                     </div>
 
                     <div>
-                      {blk.type === "heading" && (
+                      {blk.type === BlockType.Heading && (
                         <div className="text-muted">
                           Heading: {(blk as HeadingBlock).text}
                         </div>
                       )}
-                      {blk.type === "footer" && (
+                      {blk.type === BlockType.Footer && (
                         <div className="text-muted">
                           Footer: {(blk as FooterBlock).text}
                         </div>
                       )}
-                      {blk.type === "button" && (
+                      {blk.type === BlockType.Button && (
                         <div className="text-muted">
                           Button: {(blk as ButtonBlock).label}
                         </div>
                       )}
-                      {blk.type === "question" && (
+                      {blk.type === BlockType.Question && (
                         <div>
                           <div className="fw-semibold">
                             Q: {(blk as QuestionBlock).question}
@@ -151,62 +150,33 @@ export default function Canvas({
           </div>
         )}
       </Droppable>
-
-      {confirmIndex !== null && (
-        <>
-          <div className="modal-backdrop fade show" />
-          <div
-            className="modal fade show d-block"
-            tabIndex={-1}
-            role="dialog"
-            style={{ zIndex: 1050 }}
-            onMouseDown={(e) => {
-              if (e.target === e.currentTarget) closeConfirm();
-            }}
-          >
-            <div className="modal-dialog modal-dialog-centered">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title">Delete block</h5>
-                  <button
-                    type="button"
-                    className="btn-close"
-                    onClick={closeConfirm}
-                  />
-                </div>
-                <div className="modal-body">
-                  <p className="mb-0">
-                    Are you sure you want to delete{" "}
-                    <strong>
-                      block #{confirmIndex + 1}{" "}
-                      {blocks[confirmIndex]?.type
-                        ? `(${blocks[confirmIndex].type})`
-                        : ""}
-                    </strong>
-                    ?
-                  </p>
-                </div>
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    className="btn btn-secondary"
-                    onClick={closeConfirm}
-                  >
-                    Cancel
-                  </button>
-                  <button
-                    type="button"
-                    className="btn btn-danger"
-                    onClick={confirmDelete}
-                  >
-                    Delete
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </>
-      )}
+      <Modal
+        open={confirmIndex !== null}
+        onClose={closeConfirm}
+        title="Delete block"
+        footer={
+          <>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={closeConfirm}
+            >
+              Cancel
+            </button>
+            <button
+              type="button"
+              className="btn btn-danger"
+              onClick={confirmDelete}
+            >
+              Delete
+            </button>
+          </>
+        }
+      >
+        <p className="mb-0">
+          Are you sure you want to delete <strong>{targetLabel}</strong>?
+        </p>
+      </Modal>
     </div>
   );
 }

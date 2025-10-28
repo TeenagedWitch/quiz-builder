@@ -1,4 +1,4 @@
-import { ToastVariant } from "../../utility/toast";
+import { ToastVariant } from "@/utility/toast";
 
 export const variantToClass: Record<ToastVariant, string> = {
   success: "alert-success",

@@ -1,3 +1,4 @@
+import { BlockType } from "@/constants/blockTypes";
 import {
   Block,
   HeadingBlock,
@@ -17,7 +18,7 @@ export default function PropertiesPanel({ selectedBlock, updateBlock }: Props) {
       <div className="fw-semibold mb-2">Properties</div>
       {selectedBlock ? (
         <div className="d-flex flex-column gap-3">
-          {selectedBlock.type === "heading" && (
+          {selectedBlock.type === BlockType.Heading && (
             <div>
               <label className="form-label">Text</label>
               <input
@@ -30,7 +31,7 @@ export default function PropertiesPanel({ selectedBlock, updateBlock }: Props) {
             </div>
           )}
 
-          {selectedBlock.type === "footer" && (
+          {selectedBlock.type === BlockType.Footer && (
             <div>
               <label className="form-label">Text</label>
               <input
@@ -43,7 +44,7 @@ export default function PropertiesPanel({ selectedBlock, updateBlock }: Props) {
             </div>
           )}
 
-          {selectedBlock.type === "button" && (
+          {selectedBlock.type === BlockType.Button && (
             <div>
               <label className="form-label">Label</label>
               <input
@@ -56,7 +57,7 @@ export default function PropertiesPanel({ selectedBlock, updateBlock }: Props) {
             </div>
           )}
 
-          {selectedBlock.type === "question" && (
+          {selectedBlock.type === BlockType.Question && (
             <div className="d-flex flex-column gap-3">
               <div>
                 <label className="form-label">Question</label>

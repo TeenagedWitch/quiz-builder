@@ -1,20 +1,22 @@
+import { BlockType } from "@/constants/blockTypes";
+
 export type QuestionBlock =
   | {
-      type: "question";
+      type: BlockType.Question;
       question: string;
       options: string[];
       multiple?: false;
       correct?: number;
     }
   | {
-      type: "question";
+      type: BlockType.Question;
       question: string;
       options: string[];
       multiple: true;
       correct?: number[];
     }
   | {
-      type: "question";
+      type: BlockType.Question;
       question: string;
       options?: undefined;
       multiple?: false;
@@ -22,17 +24,17 @@ export type QuestionBlock =
     };
 
 export type HeadingBlock = {
-  type: "heading";
+  type: BlockType.Heading;
   text: string;
 };
 
 export type FooterBlock = {
-  type: "footer";
+  type: BlockType.Footer;
   text: string;
 };
 
 export type ButtonBlock = {
-  type: "button";
+  type: BlockType.Button;
   label: string;
 };
 

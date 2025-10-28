@@ -1,4 +1,5 @@
 import React from "react";
+import { BlockType } from "@/constants/blockTypes";
 import {
   Block,
   ButtonBlock,
@@ -10,12 +11,12 @@ import {
 
 const QuizItem = ({ title, blocks = [] }: Quiz) => {
   const renderBlock = (block: Block, idx: number) => {
-    if (block.type === "heading") {
+    if (block.type === BlockType.Heading) {
       const h = block as HeadingBlock;
       return <div className="d-flex mb-3">{h.text}</div>;
     }
 
-    if (block.type === "question") {
+    if (block.type === BlockType.Question) {
       const q = block as QuestionBlock;
       return (
         <div className="border rounded p-3">
@@ -47,7 +48,7 @@ const QuizItem = ({ title, blocks = [] }: Quiz) => {
       );
     }
 
-    if (block.type === "footer") {
+    if (block.type === BlockType.Footer) {
       const f = block as FooterBlock;
       return (
         <div className="d-flex align-items-center mt-3">
@@ -56,7 +57,7 @@ const QuizItem = ({ title, blocks = [] }: Quiz) => {
       );
     }
 
-    if (block.type === "button") {
+    if (block.type === BlockType.Button) {
       const b = block as ButtonBlock;
       return (
         <div className="d-flex justify-content-end w-100">
